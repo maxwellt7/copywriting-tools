@@ -1,4 +1,4 @@
-import { POE_MODELS } from './poe-client';
+import { POE_MODELS } from './constants';
 
 export interface Tool {
   id: string;

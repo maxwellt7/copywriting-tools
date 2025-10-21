@@ -1,16 +1,15 @@
+import 'server-only';
 import OpenAI from 'openai';
+import { POE_MODELS, type PoeModel } from './constants';
 
-const client = new OpenAI({
-  apiKey: process.env.POE_API_KEY,
-  baseURL: 'https://api.poe.com/v1',
-});
+export { POE_MODELS, type PoeModel };
 
-export const POE_MODELS = {
-  eugeneSchwartzPro: 'EugeneSchwartzZPRO',
-  vslScript: '5MVSLScript',
-} as const;
-
-export type PoeModel = typeof POE_MODELS[keyof typeof POE_MODELS];
+function getClient() {
+  return new OpenAI({
+    apiKey: process.env.POE_API_KEY,
+    baseURL: 'https://api.poe.com/v1',
+  });
+}
 
 export interface GenerateRequest {
   model: PoeModel;
@@ -25,6 +24,7 @@ export interface GenerateRequest {
 
 export async function generateCopy(request: GenerateRequest): Promise<string> {
   try {
+    const client = getClient();
     const systemPrompt = buildSystemPrompt(request.context);
     
     const completion = await client.chat.completions.create({
@@ -68,6 +68,7 @@ export async function streamGenerateCopy(
   onChunk: (chunk: string) => void
 ): Promise<void> {
   try {
+    const client = getClient();
     const systemPrompt = buildSystemPrompt(request.context);
     
     const stream = await client.chat.completions.create({
