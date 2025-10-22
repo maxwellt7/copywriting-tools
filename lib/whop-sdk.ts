@@ -17,11 +17,16 @@ export async function getWhopUser(): Promise<WhopUser | null> {
 
     if (!whopUserId) {
       // For development/testing, use test credentials
-      if (process.env.NODE_ENV === 'development') {
+      // Allow testing in both development and when NEXT_PUBLIC_WHOP_AGENT_USER_ID is set
+      const agentUserId = process.env.NEXT_PUBLIC_WHOP_AGENT_USER_ID;
+      const testUsername = process.env.WHOP_TEST_USERNAME;
+      
+      if (agentUserId) {
+        console.log('Using test credentials for Whop user');
         return {
-          id: process.env.WHOP_TEST_USER_ID || 'test-user',
-          username: process.env.WHOP_TEST_USERNAME || 'test-user',
-          email: 'test@example.com',
+          id: agentUserId,
+          username: testUsername || 'test-user',
+          email: 'test@copywritingmastery.com',
           name: 'Test User',
         };
       }

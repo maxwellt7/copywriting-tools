@@ -25,6 +25,13 @@ A professional AI-powered copywriting tool built for the Whop Apps Platform. Gen
 - **Platform**: Whop Apps
 - **Deployment**: Vercel
 
+## Whop App Details
+
+- **App ID**: `app_pvfSv9pFw8uGPQ`
+- **Company ID**: `biz_0GmrZxDZsZLJvE`
+- **Installation URL**: https://whop.com/apps/app_pvfSv9pFw8uGPQ/install/
+- **Agent User**: `copywritingmasterys-agent` (`user_LKsqH69wbaCNT`)
+
 ## Getting Started
 
 ### Prerequisites
@@ -41,11 +48,28 @@ A professional AI-powered copywriting tool built for the Whop Apps Platform. Gen
 npm install
 ```
 
-3. Create `.env.local` file (see `.env.example` for reference):
+3. Create `.env.local` file:
 ```env
+# Poe API
 POE_API_KEY=your_poe_api_key
-NEXT_PUBLIC_WHOP_CLIENT_ID=your_whop_client_id
+
+# Whop API
+WHOP_API_KEY=your_whop_api_key
+
+# Whop OAuth
+NEXT_PUBLIC_WHOP_CLIENT_ID=app_pvfSv9pFw8uGPQ
 WHOP_CLIENT_SECRET=your_whop_client_secret
+
+# Whop App Details
+NEXT_PUBLIC_WHOP_APP_ID=app_pvfSv9pFw8uGPQ
+NEXT_PUBLIC_WHOP_COMPANY_ID=biz_0GmrZxDZsZLJvE
+
+# Whop Agent User
+NEXT_PUBLIC_WHOP_AGENT_USER_ID=user_LKsqH69wbaCNT
+
+# App URLs
+NEXT_PUBLIC_APP_URL=https://copywriting-mastery-app.vercel.app
+NEXT_PUBLIC_INSTALLATION_URL=https://whop.com/apps/app_pvfSv9pFw8uGPQ/install/
 ```
 
 4. Run the development server:
@@ -70,11 +94,11 @@ copywriting-mastery-app/
 │   ├── page.tsx                   # Dashboard/home page
 │   └── globals.css                # Global styles
 ├── lib/
-│   ├── poe-client.ts              # Poe API integration
-│   ├── whop-sdk.ts                # Whop SDK utilities
+│   ├── constants.ts               # Shared constants
+│   ├── poe-client.ts              # Poe API integration (server-only)
+│   ├── whop-sdk.ts                # Whop SDK utilities (server-only)
 │   └── types.ts                   # TypeScript types and tool definitions
 ├── .env.local                     # Environment variables (gitignored)
-├── .env.example                   # Example environment variables
 └── README.md                      # This file
 ```
 
@@ -135,19 +159,11 @@ Recommended pricing model: **$29/month per seat**
 3. Add environment variables in Vercel dashboard
 4. Deploy
 
-### Deploy to Whop App Store
+**Production URL**: https://copywriting-mastery-app.vercel.app
 
-1. Build the app:
-```bash
-npm run build
-```
+### Whop App Store
 
-2. Create app build package:
-```bash
-zip -r app-build.zip .next public package.json
-```
-
-3. Submit to Whop App Store via Whop Dashboard
+**Installation Link**: https://whop.com/apps/app_pvfSv9pFw8uGPQ/install/
 
 ## Development
 
@@ -177,36 +193,28 @@ npx tsc --noEmit
 | Variable | Description | Required |
 |----------|-------------|----------|
 | `POE_API_KEY` | Poe API key for AI generation | Yes |
+| `WHOP_API_KEY` | Whop API key | Yes |
 | `NEXT_PUBLIC_WHOP_CLIENT_ID` | Whop OAuth client ID | Yes |
 | `WHOP_CLIENT_SECRET` | Whop OAuth client secret | Yes |
-| `WHOP_TEST_USER_ID` | Test user ID for development | Dev only |
-| `WHOP_TEST_USERNAME` | Test username for development | Dev only |
+| `NEXT_PUBLIC_WHOP_APP_ID` | Whop App ID | Yes |
+| `NEXT_PUBLIC_WHOP_COMPANY_ID` | Whop Company ID | Yes |
+| `NEXT_PUBLIC_WHOP_AGENT_USER_ID` | Agent user ID for testing | Dev only |
 | `NEXT_PUBLIC_APP_URL` | App URL (for production) | No |
+| `NEXT_PUBLIC_INSTALLATION_URL` | Whop installation URL | No |
 
 ## Security
 
-- ✅ API keys stored securely in environment variables
+- ✅ API keys stored securely in environment variables (server-only)
 - ✅ User authentication via Whop SDK
 - ✅ Input validation using Zod
-- ✅ Rate limiting (recommended: add Vercel rate limiting)
+- ✅ `server-only` modules prevent client-side API exposure
 - ✅ CORS configuration for Whop embedding
-
-## Future Enhancements
-
-- [ ] History/drafts storage with database
-- [ ] Export to PDF/DOCX
-- [ ] Team collaboration features
-- [ ] Custom model training
-- [ ] A/B testing capabilities
-- [ ] Analytics dashboard
-- [ ] Template library
-- [ ] Integration with marketing platforms
 
 ## Support
 
 For issues or questions:
-- Create an issue in the repository
-- Contact: [Your contact information]
+- GitHub: https://github.com/maxwellt7/copywriting-tools
+- Whop Installation: https://whop.com/apps/app_pvfSv9pFw8uGPQ/install/
 
 ## License
 
